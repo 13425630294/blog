@@ -255,8 +255,8 @@ export default {
       &.prev {
         border-right: none;
       }
-      &.next {
-      }
+      // &.next {
+      // }
     }
   }
 }

@@ -54,7 +54,7 @@ export default {
       let that = this;
 
       if (that.name.length > 20) {
-        that.$message({
+          ({
           type: "warning",
           message: "登录账号太长!"
         });
@@ -62,6 +62,7 @@ export default {
       }
       if (that.nickName.length > 12) {
         that.$message({
+          
           type: "warning",
           message: "昵称太长!"
         });

@@ -329,8 +329,8 @@ export default {
                       text-align: right;
                       padding: 10px 0;
                       font-size: 12px;
-                      .date {
-                      }
+                      // .date {
+                      // }
                       .replay_btn {
                         color: #999;
                         padding: 0 10px;
@@ -485,8 +485,8 @@ export default {
                         text-align: right;
                         padding: 10px 0;
                         font-size: 12px;
-                        .date {
-                        }
+                        // .date {
+                        // }
                         .replay_btn {
                           color: #999;
                           padding: 0 10px;

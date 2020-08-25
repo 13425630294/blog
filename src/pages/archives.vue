@@ -38,6 +38,7 @@ export default {
     this.$axios.post(webUrl+'articleList',{'type':'archives'})
       .then((res)=>{
         this.items=res.data;
+        console.log('articleList:'+this.items)
       })
   },
 }

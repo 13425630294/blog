@@ -16,6 +16,7 @@ router.post('/api/admin/signUp', (req, res) => {
             return
         }
         if (docs.length > 0) {
+            // console.log(docs)
             res.send({ 'status': 0, 'msg': '用户名已注册' });
         } else {
             db.User.find({ nickName: req.body.nickName }, (err, docs) => {
@@ -60,14 +61,18 @@ router.post('/api/admin/signIn', (req, res) => {
             let token = jwt.sign(content, secretOrPrivateKey, {
                 expiresIn: 60 * 60 * 24  // 24小时过期
             });
-
+            // console.log(docs[0].token)
             docs[0].token = token
             db.User(docs[0]).save(function (err) {
                 if (err) {
                     res.status(500).send()
                     return
                 }
-                res.send({ 'status': 1, 'msg': '登陆成功', 'token': docs[0].token, 'user_name': docs[0]["name"], 'type': docs[0]["type"], 'nickName': docs[0]["nickName"], 'avatar': docs[0]["avatar"] })
+                res.send({
+                    'status': 1, 'msg': '登陆成功', 'token': docs[0].token, 'user_name': docs[0]["name"], 'type': docs[0]["type"],
+                    'nickName': docs[0]["nickName"], 'avatar': docs[0]["avatar"]
+                })
+                // console.log(docs[0])
             })
         } else {
             res.send({ 'status': 0, 'msg': '登录失败' });
@@ -81,13 +86,14 @@ router.post('/api/admin/signOut', (req, res) => {
             return
         }
         if (docs.length > 0) {
+            // console.log(docs[0].token)
             docs[0].token = '';
             db.User(docs[0]).save(function (err) {
                 if (err) {
                     res.status(500).send()
                     return
                 }
-                res.send({ 'status': 1, 'msg': '退出成功' })
+                else res.send({ 'status': 1, 'msg': '退出成功' })
             })
         } else {
             res.send({ 'status': 0, 'msg': '退出失败' })
@@ -115,6 +121,7 @@ router.post('/api/admin/updateUser', (req, res) => {
                 const fs = require('fs');
                 let D = Date.now();
                 let saveImg = path.join(__dirname, '../static/upload/avatar/' + D + '.png');//api.js的上级的static下
+                console.log(saveImg)
                 let pathImg = './static/upload/avatar/' + D + '.png';//返前台路径目录
                 let base64 = req.body.avatar.replace(/^data:image\/\w+;base64,/, "");
                 let dataBuffer = new Buffer(base64, 'base64'); //把base64码转成buffer对象，
@@ -172,11 +179,13 @@ router.post('/api/articleList', (req, res) => {
             return
         }
         if (req.body.type == 'archives') {//archives结构
+            // console.log(data)
             let arr = [];
             let data_archives = [];
 
             for (let i = 0; i < data.length; i++) {
                 let date = data[i]["date"].slice(0, 4);
+                // console.log(date)
 
                 if (arr.indexOf(date) == -1) {
                     let obj = {
@@ -190,6 +199,8 @@ router.post('/api/articleList', (req, res) => {
                     }
                     data_archives.push(obj);
                     arr.push(date);
+                    // console.log(arr)
+                    // console.log(data_archives)
                 } else {
                     let obj = {
                         "_id": data[i]['_id'],
@@ -241,11 +252,12 @@ router.post('/api/articleList', (req, res) => {
                 }
             }
             res.send(data_categories)
-        } else {//article结构
+        } else {//home结构
             for (let i = 0; i < data.length; i++) {
                 data[i]["comments"] = data[i]["comments"].length;
                 data[i]["content"] = null;
             }
+            // console.log(data)
             res.send(data)
         }
     })
